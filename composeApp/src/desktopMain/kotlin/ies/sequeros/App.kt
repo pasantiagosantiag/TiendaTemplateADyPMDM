@@ -17,7 +17,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 fun App() {
     MaterialTheme() {
 
-       // var showContent by remember { mutableStateOf(false) }
+
         val navController = rememberNavController()
         NavHost(
             navController = navController,

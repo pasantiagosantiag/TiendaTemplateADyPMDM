@@ -13,7 +13,7 @@ import java.time.LocalDate
 import java.util.*
 
 class UsuarioViewModel(val repository: ies.java.repositorio.UsuarioRepositorio): ViewModel() {
-     var _usuarios = MutableStateFlow<MutableList<Usuario>>(mutableListOf())
+    var _usuarios = MutableStateFlow<MutableList<Usuario>>(mutableListOf())
     var _selected= MutableStateFlow<Usuario?>(null)
     init {
         _usuarios.value = _usuarios.value.apply {
@@ -21,7 +21,7 @@ class UsuarioViewModel(val repository: ies.java.repositorio.UsuarioRepositorio):
         }
     }
     var usuarios: StateFlow<MutableList<Usuario>> = _usuarios
-    var selected:MutableStateFlow<Usuario?> = _selected
+    var selected:StateFlow<Usuario?> = _selected
     fun setSelected(item:Usuario){
         _selected.value = item
     }
@@ -46,7 +46,6 @@ class UsuarioViewModel(val repository: ies.java.repositorio.UsuarioRepositorio):
             removeAll {
                email==it.email
             }
-
         }
 
 
