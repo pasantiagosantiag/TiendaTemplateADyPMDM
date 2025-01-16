@@ -15,24 +15,26 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 @Preview
 fun App() {
-    MaterialTheme() {
 
-       // var showContent by remember { mutableStateOf(false) }
-        val navController = rememberNavController()
-        NavHost(
-            navController = navController,
-            startDestination = "principal" // Pantalla inicial
-        ) {
-            composable("principal") {
-                Principal(navController)
+        MaterialTheme() {
+
+            // var showContent by remember { mutableStateOf(false) }
+            val navController = rememberNavController()
+            NavHost(
+                navController = navController,
+                startDestination = "principal" // Pantalla inicial
+            ) {
+                composable("principal") {
+                    Principal(navController)
+                }
+                composable("tienda") {
+                    Tienda()//navController)
+                }
+                composable("administracion") {
+                    Administracion() //(navController)
+                }
             }
-            composable("tienda") {
-                Tienda()//navController)
-            }
-            composable("administracion") {
-               Administracion() //(navController)
-            }
+
         }
 
-    }
 }

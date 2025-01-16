@@ -18,7 +18,7 @@ import tiendatemplate.composeapp.generated.resources.woman
 @Composable
 fun UsuarioDetalle(usuarioViewModel: UsuarioViewModel, navController: NavController, expandido:Boolean, atras: ()->Unit) {
 
-    val selected=usuarioViewModel.selected.collectAsState()
+   val selected=usuarioViewModel.selected.collectAsState()
 
         Column(
             modifier =

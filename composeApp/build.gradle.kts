@@ -1,4 +1,5 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -10,8 +11,12 @@ kotlin {
     jvm("desktop") {
         //para poder usar código Java en el escritorio
         compilations.all {
-           // kotlinOptions.jvmTarget = "1.8"
+           // kotlinOptions.jvmTarget = "22"
+            //jvmTarget.set(JvmTarget.JVM_11)
         }
+        /*compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_22)
+        }*/
         withJava()
     }
     //jvmToolchain(8)
@@ -52,10 +57,38 @@ kotlin {
             //logs
             implementation("org.slf4j:slf4j-api:2.0.9") // SLF4J API
             implementation("ch.qos.logback:logback-classic:1.4.11") // Implementación de Logback
+            implementation("io.insert-koin:koin-core:3.5.6")
+           /* implementation("io.insert-koin:koin-compose:3.5.6")
+            implementation("io.insert-koin:koin-compose-viewmodel:3.5.6")
+            implementation("io.insert-koin:koin-compose-viewmodel-navigation:3.5.6")*/
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
+
+
+            implementation(project.dependencies.platform("org.hibernate.orm:hibernate-platform:6.6.2.Final"))
+            //para entity manager
+            implementation("org.hibernate:hibernate-entitymanager:5.6.15.Final")
+            implementation ("org.hibernate.validator:hibernate-validator:8.0.0.Final")
+            implementation ("org.glassfish:jakarta.el:4.0.2")
+            //nucleo
+            implementation ("org.hibernate.orm:hibernate-core")
+            //dependencias
+            implementation ("jakarta.transaction:jakarta.transaction-api")
+            //driver
+            // https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc
+           // implementation("com.mysql:mysql-connector-j")
+            // https://mvnrepository.com/artifact/org.hibernate.orm/hibernate-community-dialects
+            implementation("org.hibernate.orm:hibernate-community-dialects:6.6.4.Final")
+            // implementation("org.hibernate.orm:hibernate-community-dialects:6.6.4.Final")
+            implementation("com.mysql:mysql-connector-j:9.1.0")
+
+            runtimeOnly("com.mysql:mysql-connector-j:9.1.0")
+            //para los logs
+            implementation("org.apache.logging.log4j:log4j-core:2.24.1")
+           // annotationProcessor ("org.hibernate.orm:hibernate-jpamodelgen:6.6.3.Final")
+
         }
     }
 }

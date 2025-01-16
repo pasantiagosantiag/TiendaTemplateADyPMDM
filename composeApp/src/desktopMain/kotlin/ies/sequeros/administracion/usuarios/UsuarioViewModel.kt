@@ -5,11 +5,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import ies.java.model.Localidad
 import ies.java.model.Usuario
 import ies.java.repositorio.UsuarioRepositorio
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import java.time.LocalDate
+import kotlinx.coroutines.flow.asStateFlow
 import java.util.*
 
 class UsuarioViewModel(val repository: ies.java.repositorio.UsuarioRepositorio): ViewModel() {
@@ -20,9 +21,10 @@ class UsuarioViewModel(val repository: ies.java.repositorio.UsuarioRepositorio):
             addAll(repository.usuarios)
         }
     }
-    var usuarios: StateFlow<MutableList<Usuario>> = _usuarios
-    var selected:MutableStateFlow<Usuario?> = _selected
-    fun setSelected(item:Usuario){
+    val usuarios: StateFlow<MutableList<Usuario>> = _usuarios.asStateFlow()
+
+    var selected:StateFlow<Usuario?> = _selected
+    fun setSelected(item: Usuario){
         _selected.value = item
     }
     fun unselect(){
@@ -32,6 +34,30 @@ class UsuarioViewModel(val repository: ies.java.repositorio.UsuarioRepositorio):
        repository.agregarUsuario(usuario)
         _usuarios.value = _usuarios.value.toMutableList().apply {
             add( usuario)
+        }
+    }
+
+    fun guardarusuario(email:String,nombre:String,apellidos:String,dni:String,telefono:String, calle:String,calle2:String, codpos:String){
+        if(selected.value==null){
+            var u=Usuario()
+            u.nombre=nombre
+            u.email=email;
+            u.apellidos=apellidos;
+            u.dni=dni;
+            u.telefono=telefono;
+            u.calle=calle;
+            u.codpos=codpos;
+            u.calle2=calle2;
+           // u.localidad
+
+            repository.agregarUsuario(u)
+        }
+        else{
+            selected.value?.let {
+                it.nombre=nombre;
+               repository.updateUsuario(it)
+            }
+
         }
     }
     fun getUsuario(email: String): Optional<Usuario> {
@@ -53,14 +79,17 @@ class UsuarioViewModel(val repository: ies.java.repositorio.UsuarioRepositorio):
     }
 
     fun updateUsuario(usuario: Usuario) {
-        val original = this.getUsuario(usuario.email)
-        if(original.isPresent) {
+        repository.updateUsuario(usuario)
+        /* usuario.email?.let {
+             var u= this.getUsuario(it)
+        if(u.isPresent) {
             repository.updateUsuario(usuario)
             _usuarios.value = _usuarios.value.toMutableList().apply {
-                set(_usuarios.value.indexOf(original.get()), usuario)
+                set(_usuarios.value.indexOf(u.get()), usuario)
             }
 
         }
+        }*/
 
     }
     companion object {

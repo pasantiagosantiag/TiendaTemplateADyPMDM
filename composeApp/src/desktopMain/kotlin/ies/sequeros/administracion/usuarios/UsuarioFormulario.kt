@@ -10,27 +10,19 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import ies.java.model.Usuario
 
+
 @Composable
 fun UsuarioFormulario(viewModel: UsuarioViewModel, navController: NavHostController, expandido:Boolean, atras: ()->Unit) {
     // Estados para los campos
-    var email by remember { mutableStateOf("") }
-    var nombre by remember { mutableStateOf("") }
-    var apellidos by remember { mutableStateOf("") }
-    var dni by remember { mutableStateOf("") }
-    var telefono by remember { mutableStateOf("") }
-    var calle by remember { mutableStateOf("") }
-    var calle2 by remember { mutableStateOf("") }
-    var codpos by remember { mutableStateOf("") }
-    //se hace una copia
-    var usuario by remember {
-        mutableStateOf<Usuario>(
-            (if (viewModel.selected.value != null) {
-                viewModel.selected.value!!.clone()
-            } else {
-                Usuario()
-            })
-        )
-    }
+    var email by remember { mutableStateOf(viewModel.selected.value?.email ?: "") }
+    var nombre by remember { mutableStateOf(viewModel.selected.value?.nombre ?: "") }
+    var apellidos by remember { mutableStateOf(viewModel.selected.value?.apellidos ?: "") }
+    var dni by remember { mutableStateOf(viewModel.selected.value?.dni ?: "") }
+    var telefono by remember { mutableStateOf(viewModel.selected.value?.telefono ?: "") }
+    var calle by remember { mutableStateOf(viewModel.selected.value?.calle ?: "") }
+    var calle2 by remember { mutableStateOf(viewModel.selected.value?.calle2 ?: "") }
+    var codpos by remember { mutableStateOf(viewModel.selected.value?.codpos ?: "") }
+
 
 
 
@@ -43,11 +35,9 @@ fun UsuarioFormulario(viewModel: UsuarioViewModel, navController: NavHostControl
     ) {
         // Campo de correo electrónico
         OutlinedTextField(
-            value = usuario.email,
+            value = email,
             onValueChange = {
-                var t = usuario.clone()
-                t.email = it;
-                usuario = t;
+                email= it;
             },
             enabled = viewModel.selected.value == null,
             label = { Text("Correo electrónico") },
@@ -57,11 +47,11 @@ fun UsuarioFormulario(viewModel: UsuarioViewModel, navController: NavHostControl
 
         // Campo de nombre
         OutlinedTextField(
-            value = usuario.nombre,
+            value = nombre,
             onValueChange = {
-                var t = usuario.clone()
-                t.nombre = it;
-                usuario = t;
+
+                nombre = it;
+
 
             },
             label = { Text("Nombre") },
@@ -70,11 +60,11 @@ fun UsuarioFormulario(viewModel: UsuarioViewModel, navController: NavHostControl
 
         // Campo de apellidos
         OutlinedTextField(
-            value = usuario.apellidos,
+            value = apellidos,
             onValueChange = {
-                var t = usuario.clone()
-                t.apellidos = it;
-                usuario = t;
+
+                apellidos = it;
+
 
             },
             label = { Text("Apellidos") },
@@ -83,11 +73,11 @@ fun UsuarioFormulario(viewModel: UsuarioViewModel, navController: NavHostControl
 
         // Campo de DNI
         OutlinedTextField(
-            value = usuario.dni,
+            value = dni,
             onValueChange = {
-                var t = usuario.clone()
-                t.dni = it;
-                usuario = t;
+
+                dni = it;
+
             },
             label = { Text("DNI") },
             modifier = Modifier.fillMaxWidth()
@@ -95,11 +85,11 @@ fun UsuarioFormulario(viewModel: UsuarioViewModel, navController: NavHostControl
 
         // Campo de teléfono
         OutlinedTextField(
-            value = usuario.telefono,
+            value = telefono,
             onValueChange = {
-                var t = usuario.clone()
-                t.telefono = it;
-                usuario = t;
+
+                telefono = it;
+
             },
             label = { Text("Teléfono") },
             // keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
@@ -108,11 +98,11 @@ fun UsuarioFormulario(viewModel: UsuarioViewModel, navController: NavHostControl
 
         // Campo de calle
         OutlinedTextField(
-            value = usuario.calle,
+            value = calle,
             onValueChange = {
-                var t = usuario.clone()
-                t.calle = it;
-                usuario = t;
+
+                calle = it;
+
             },
             label = { Text("Calle") },
             modifier = Modifier.fillMaxWidth()
@@ -120,11 +110,11 @@ fun UsuarioFormulario(viewModel: UsuarioViewModel, navController: NavHostControl
 
         // Campo de calle 2
         OutlinedTextField(
-            value = usuario.calle2,
+            value = calle2,
             onValueChange = {
-                var t = usuario.clone()
-                t.calle2 = it;
-                usuario = t;
+
+               calle2 = it;
+
             },
             label = { Text("Calle 2 (opcional)") },
             modifier = Modifier.fillMaxWidth()
@@ -132,11 +122,11 @@ fun UsuarioFormulario(viewModel: UsuarioViewModel, navController: NavHostControl
 
         // Campo de código postal
         OutlinedTextField(
-            value = usuario.codpos,
+            value = codpos,
             onValueChange = {
-                var t = usuario.clone()
-                t.codpos = it;
-                usuario = t;
+
+                codpos = it;
+
             },
             label = { Text("Código postal") },
             //  keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
@@ -146,14 +136,27 @@ fun UsuarioFormulario(viewModel: UsuarioViewModel, navController: NavHostControl
         // Botón de envío
         Button(
             onClick = {
-                if(viewModel.selected.value==null || viewModel.selected.value?.email?.isEmpty() ?:false ){
-                    viewModel.agregarUsuario(usuario)
+                var u:Usuario?
+                if(viewModel.selected.value==null  ||viewModel.selected.value?.email?.isEmpty() ?:false) {
+                    u = Usuario()
+                    u.email = email
                 }else{
-                    viewModel.updateUsuario(usuario)
+                    u= viewModel.selected.value
                 }
+                    u?.nombre= nombre
+                    u?.apellidos  = apellidos
+                    u?.dni  = dni
+                    u?.telefono = telefono
+                    u?.calle = calle
+                    u?.codpos = codpos
+                    u?.calle2=calle2
+                if (u != null) {
+                    viewModel.agregarUsuario(u)
+                }
+
                 navController.popBackStack()
             },
-            enabled =  validarUsuario(usuario),
+            //enabled =  validarUsuario(usuario),
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Enviar")
@@ -175,10 +178,10 @@ fun UsuarioFormulario(viewModel: UsuarioViewModel, navController: NavHostControl
 /**
  * Ejemplo de validación
  */
-fun validarUsuario(usuario: Usuario):Boolean{
+/*fun validarUsuario(usuario: Usuario):Boolean{
     val regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$".toRegex()
     if(usuario.nombre.isEmpty() || usuario.email.isEmpty() || !usuario.email.matches(regex) ) {
        return  false
     }
      return true
-}
+}*/

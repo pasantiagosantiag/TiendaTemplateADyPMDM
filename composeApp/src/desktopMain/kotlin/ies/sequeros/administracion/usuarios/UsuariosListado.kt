@@ -24,7 +24,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import ies.java.model.Usuario
-
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
 @Composable
 fun UsuariosListado(usuarioViewModel: UsuarioViewModel) {
@@ -69,7 +68,7 @@ fun UsuariosListado(usuarioViewModel: UsuarioViewModel) {
                                 modifier = Modifier
                                     .width(150.dp)
                                     .clickable {
-                                        //selected = item
+                                        selected = item
                                         usuarioViewModel.setSelected(item)
                                         navigator.navigateTo(ListDetailPaneScaffoldRole.Detail)
                                         navController.navigate("detalle")
@@ -86,7 +85,7 @@ fun UsuariosListado(usuarioViewModel: UsuarioViewModel) {
 
 
                             Button(onClick = {
-                                usuarioViewModel.removerUsuario(item.email)
+                                item.email?.let { usuarioViewModel.removerUsuario(it) }
 
                                 if (selected == item)
                                     selected = null
@@ -103,7 +102,8 @@ fun UsuariosListado(usuarioViewModel: UsuarioViewModel) {
                     navController = navController,
                     startDestination = "detalle" // Pantalla inicial
                 ) {
-                    composable("detalle") { UsuarioDetalle(usuarioViewModel,navController, isListAndDetailVisible
+                    composable("detalle") {
+                        UsuarioDetalle(usuarioViewModel,navController, isListAndDetailVisible
                     ) {
                         if (navigator.canNavigateBack())
                             navigator.navigateBack()
