@@ -8,36 +8,46 @@ import java.time.Instant;
 @Entity
 @Table(name = "pedido")
 public class Pedido {
-    @Id
+  /*  @Id
     @Column(name = "numPedido", nullable = false)
-    private Integer id;
+    private Integer id;*/
 
-    @NotNull
+    /*@NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "usuario", nullable = false)
-    private Usuario usuario;
+    private Usuario usuario;*/
+    private String usuario;
 
     @NotNull
+
     @Column(name = "fecha", nullable = false)
     private Instant fecha;
 
     @NotNull
-    @Column(name = "num_pedido", nullable = false)
-    private Integer numPedido;
+    @Id
+    @Column(name = "numPedido", nullable = false)
+    private Integer num_pedido;
 
-    public Integer getId() {
+  /*  public Integer getId() {
         return id;
     }
 
     public void setId(Integer id) {
         this.id = id;
-    }
+    }*/
 
-    public Usuario getUsuario() {
+   /* public Usuario getUsuario() {
         return usuario;
     }
 
     public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }*/
+   public String getUsuario() {
+       return usuario;
+   }
+
+    public void setUsuario(String usuario) {
         this.usuario = usuario;
     }
 
@@ -50,11 +60,11 @@ public class Pedido {
     }
 
     public Integer getNumPedido() {
-        return numPedido;
+        return num_pedido;
     }
 
     public void setNumPedido(Integer numPedido) {
-        this.numPedido = numPedido;
+        this.num_pedido = num_pedido;
     }
 
 }

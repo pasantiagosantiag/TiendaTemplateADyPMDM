@@ -83,6 +83,8 @@ kotlin {
             implementation("org.hibernate.orm:hibernate-community-dialects:6.6.4.Final")
             // implementation("org.hibernate.orm:hibernate-community-dialects:6.6.4.Final")
             implementation("com.mysql:mysql-connector-j:9.1.0")
+// https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator
+            implementation("org.hibernate.validator:hibernate-validator:8.0.2.Final")
 
             runtimeOnly("com.mysql:mysql-connector-j:9.1.0")
             //para los logs

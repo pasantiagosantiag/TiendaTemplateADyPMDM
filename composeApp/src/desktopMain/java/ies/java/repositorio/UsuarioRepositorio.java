@@ -34,8 +34,9 @@ public class UsuarioRepositorio {
     }*/
     public List<Usuario> getUsuarios() {
         var session=SingletonFactory.getConnection().getSession();
-
-        var items=session.createQuery("SELECT u FROM Usuario u JOIN FETCH u.localidad ", Usuario.class).getResultList();
+        var otros=session.createQuery("from Pedido").list();
+        var items=session.createQuery("from Usuario").list();
+       // var items=session.createQuery("SELECT u FROM Usuario u", Usuario.class).getResultList();
         return items;
     }
 

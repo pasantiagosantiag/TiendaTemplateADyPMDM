@@ -64,7 +64,7 @@ fun UsuariosListado(usuarioViewModel: UsuarioViewModel) {
                     items.forEach { item ->
                         Row {
                             Text(
-                                text = item.nombre + " " + item.apellidos,
+                                text = item.nombre + " " + item.apellidos+" "+item.pedidos.size.toString(),
                                 modifier = Modifier
                                     .width(150.dp)
                                     .clickable {
